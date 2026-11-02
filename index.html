@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark font-tajawal scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة الروسي | El-Roussi Store</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            },
+            accent: {
+              500: '#e11d48',
+              600: '#be123c',
+            }
+          },
+          fontFamily: {
+            tajawal: ['Tajawal', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Tajawal', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #0284c7; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="filterCategory('all')">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-brand-500/20">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <div>
+            <h1 class="text-2xl font-black tracking-tight text-white">مكتبة <span class="text-brand-500">الروسي</span></h1>
+            <p class="text-xs text-slate-400">أكواد • كتب • أدوات مدرسية</p>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-2 bg-slate-800/60 p-1.5 rounded-2xl border border-slate-700/50">
+          <button onclick="filterCategory('all')" class="nav-btn active text-sm font-bold px-4 py-2 rounded-xl transition-all text-white bg-brand-600" data-cat="all">الكل</button>
+          <button onclick="filterCategory('codes')" class="nav-btn text-sm font-bold px-4 py-2 rounded-xl transition-all text-slate-400 hover:text-white" data-cat="codes"><i class="fa-solid fa-code ml-1.5"></i>الأكواد والاشتراكات</button>
+          <button onclick="filterCategory('books')" class="nav-btn text-sm font-bold px-4 py-2 rounded-xl transition-all text-slate-400 hover:text-white" data-cat="books"><i class="fa-solid fa-book-open ml-1.5"></i>كتب أونلاين</button>
+          <button onclick="filterCategory('tools')" class="nav-btn text-sm font-bold px-4 py-2 rounded-xl transition-all text-slate-400 hover:text-white" data-cat="tools"><i class="fa-solid fa-pen-ruler ml-1.5"></i>أدوات مدرسية</button>
+        </nav>
+
+        <!-- Cart Trigger -->
+        <button onclick="toggleCart()" class="relative bg-slate-800 hover:bg-slate-700 text-white p-3 rounded-2xl border border-slate-700 transition-all flex items-center gap-3">
+          <i class="fa-solid fa-cart-shopping text-xl text-brand-500"></i>
+          <span class="font-bold text-sm hidden sm:inline">السلة</span>
+          <span id="cart-count" class="bg-accent-500 text-white text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+        </button>
+      </div>
+
+      <!-- Mobile Category Bar -->
+      <div class="flex md:hidden overflow-x-auto gap-2 py-3 border-t border-slate-800/80 no-scrollbar">
+        <button onclick="filterCategory('all')" class="mobile-nav-btn whitespace-nowrap text-xs font-bold px-4 py-2 rounded-xl bg-brand-600 text-white" data-cat="all">الكل</button>
+        <button onclick="filterCategory('codes')" class="mobile-nav-btn whitespace-nowrap text-xs font-bold px-4 py-2 rounded-xl bg-slate-800 text-slate-300" data-cat="codes">الأكواد</button>
+        <button onclick="filterCategory('books')" class="mobile-nav-btn whitespace-nowrap text-xs font-bold px-4 py-2 rounded-xl bg-slate-800 text-slate-300" data-cat="books">الكتب</button>
+        <button onclick="filterCategory('tools')" class="mobile-nav-btn whitespace-nowrap text-xs font-bold px-4 py-2 rounded-xl bg-slate-800 text-slate-300" data-cat="tools">الأدوات</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 py-12 border-b border-slate-800/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <span class="bg-brand-500/10 text-brand-500 border border-brand-500/30 text-xs font-bold px-4 py-1.5 rounded-full inline-block mb-4">
+        🚀 المتجر الرسمي لمكتبة الروسي
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight mb-4">
+        كل ما تحتاجه من <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-500">كتب، أدوات، وأكواد</span> في مكان واحد
+      </h2>
+      <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+        شراء سريع، دفع آمن عبر فودافون كاش أو عند الاستلام، وتأكيد فوري للطلبات عبر التليجرام!
+      </p>
+    </div>
+  </section>
+
+  <!-- Products Grid Section -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
+    <div class="flex items-center justify-between mb-8">
+      <h3 id="category-title" class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+        <i class="fa-solid fa-border-all text-brand-500"></i> جميع المنتجات
+      </h3>
+    </div>
+
+    <!-- Products Container -->
+    <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Generated via JS -->
+    </div>
+  </main>
+
+  <!-- Cart & Checkout Sidebar / Drawer -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+    <div onclick="toggleCart()" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"></div>
+    <div class="fixed inset-y-0 left-0 max-w-full flex">
+      <div class="w-screen max-w-md bg-slate-900 border-r border-slate-800 text-slate-100 flex flex-col justify-between shadow-2xl">
+        <!-- Cart Header -->
+        <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-brand-500"></i> سلة الشراء
+          </h3>
+          <button onclick="toggleCart()" class="text-slate-400 hover:text-white p-2">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items" class="p-6 space-y-4 overflow-y-auto flex-grow">
+          <!-- Items inserted via JS -->
+        </div>
+
+        <!-- Cart Footer & Checkout Form -->
+        <div class="p-6 border-t border-slate-800 bg-slate-950/50 space-y-4">
+          <div class="flex justify-between items-center text-lg font-black">
+            <span>إجمالي الحساب:</span>
+            <span id="cart-total" class="text-brand-500">0 ج.م</span>
+          </div>
+
+          <!-- Checkout Form -->
+          <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-3 pt-2">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">الاسم بالكامل *</label>
+              <input type="text" id="cust-name" required placeholder="أدخل اسمك هنا" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-brand-500 text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف / الواتساب *</label>
+              <input type="tel" id="cust-phone" required placeholder="010xxxxxxx" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-brand-500 text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">طريقة الدفع *</label>
+              <select id="payment-method" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-brand-500 text-white">
+                <option value="فودافون كاش (01029132258)">فودافون كاش (01029132258)</option>
+                <option value="الدفع عند الاستلام">الدفع عند الاستلام</option>
+                <option value="فيزا / كارت بنكي">فيزا / كارت بنكي (أونلاين)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">العنوان / ملاحظات الإرسال</label>
+              <textarea id="cust-notes" rows="2" placeholder="أدخل مكان الاستلام أو إيميل استلام الكود" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-brand-500 text-white"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-500 hover:to-accent-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i> إرسال الطلب عبر التليجرام
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-right flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div>
+        <h4 class="font-black text-lg text-white">مكتبة الروسي</h4>
+        <p class="text-xs text-slate-400 mt-1">جميع الحقوق محفوظة © 2026</p>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row items-center gap-4 text-xs text-slate-300">
+        <span class="flex items-center gap-1.5"><i class="fa-solid fa-phone text-brand-500"></i> للتواصل والواتساب: 01029132258</span>
+        <span class="flex items-center gap-1.5"><i class="fa-solid fa-wallet text-accent-500"></i> كاش: 01029132258</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic JS -->
+  <script>
+    // Configuration & Telegram Credentials
+    const TELEGRAM_BOT_TOKEN = "8914513204:AAFjE0s974FBFZKBoqGndr3B4wJFVX8Czo4";
+    const TELEGRAM_CHAT_ID = "7861740056";
+
+    // Sample Products Data
+    const products = [
+      { id: 1, name: "اشتراك كود تفعيل منصات تعليمية", price: 150, category: "codes", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&q=80", desc: "كود تفعيل رسمي وسريع مع ضمان شامل." },
+      { id: 2, name: "كتاب قواعد اللغة والبرمجة الحديثة", price: 200, category: "books", image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500&q=80", desc: "نسخةPDF مطبوعة ورقمية عالية الجودة." },
+      { id: 3, name: "طقم أدوات مدرسية وهندسية فاخر", price: 95, category: "tools", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=500&q=80", desc: "أدوات عالية الدقة مناسبة لكافة المراحل الدراسية." },
+      { id: 4, name: "كود اشتراك VIP أونلاين 3 أشهر", price: 300, category: "codes", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80", desc: "وصول كامل لكافة المحتويات والكتب الرقمية." },
+      { id: 5, name: "كتاب ملخص الامتحانات النهائية", price: 120, category: "books", image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&q=80", desc: "شامل الشرح والأسئلة المحلولة." },
+      { id: 6, name: "حقيبة أقلام ومستلزمات مكتبية", price: 75, category: "tools", image: "https://images.unsplash.com/photo-1585336261026-8f57857820f2?w=500&q=80", desc: "مكونة من 12 قطعة مختلفة الألوان." }
+    ];
+
+    let cart = [];
+
+    // Render Products
+    function renderProducts(cat = 'all') {
+      const container = document.getElementById('products-container');
+      container.innerHTML = '';
+
+      const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+
+      filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden hover:border-slate-700 transition-all flex flex-col justify-between group";
+        card.innerHTML = `
+          <div>
+            <div class="h-48 overflow-hidden relative">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur-md text-brand-500 font-extrabold text-xs px-3 py-1 rounded-full border border-slate-800">
+                ${p.category === 'codes' ? 'أكواد' : p.category === 'books' ? 'كتب' : 'أدوات'}
+              </span>
+            </div>
+            <div class="p-5">
+              <h4 class="font-bold text-lg text-white mb-1">${p.name}</h4>
+              <p class="text-xs text-slate-400 mb-4 line-clamp-2">${p.desc}</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/50 mt-auto">
+            <span class="text-xl font-black text-brand-500">${p.price} <span class="text-xs text-slate-400">ج.م</span></span>
+            <button onclick="addToCart(${p.id})" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shadow-lg shadow-brand-500/10">
+              <i class="fa-solid fa-plus"></i> إضافـة للسـلة
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Category Filter Handler
+    function filterCategory(cat) {
+      document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(b => {
+        if(b.dataset.cat === cat) {
+          b.classList.add('bg-brand-600', 'text-white');
+          b.classList.remove('bg-slate-800', 'text-slate-400', 'text-slate-300');
+        } else {
+          b.classList.remove('bg-brand-600', 'text-white');
+          b.classList.add('bg-slate-800', 'text-slate-400');
+        }
+      });
+      renderProducts(cat);
+    }
+
+    // Cart Management
+    function addToCart(id) {
+      const prod = products.find(p => p.id === id);
+      const existing = cart.find(item => item.id === id);
+      if(existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...prod, qty: 1 });
+      }
+      updateCartUI();
+      toggleCart(true);
+    }
+
+    function updateCartUI() {
+      const countEl = document.getElementById('cart-count');
+      const itemsEl = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+
+      const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+      const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+
+      countEl.innerText = totalItems;
+      totalEl.innerText = totalPrice + ' ج.م';
+
+      if(cart.length === 0) {
+        itemsEl.innerHTML = `<p class="text-center text-slate-500 py-8 text-sm">السلة فارغة حالياً</p>`;
+        return;
+      }
+
+      itemsEl.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between bg-slate-800/50 p-3 rounded-2xl border border-slate-700/50">
+          <div>
+            <h5 class="font-bold text-sm text-white">${item.name}</h5>
+            <p class="text-xs text-brand-500 font-bold mt-0.5">${item.price} ج.م × ${item.qty}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-slate-700 text-white text-xs font-bold flex items-center justify-center">-</button>
+            <span class="text-xs font-bold text-slate-200">${item.qty}</span>
+            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-slate-700 text-white text-xs font-bold flex items-center justify-center">+</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if(item) {
+        item.qty += delta;
+        if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      }
+      updateCartUI();
+    }
+
+    function toggleCart(open = null) {
+      const drawer = document.getElementById('cart-drawer');
+      if(open === true) drawer.classList.remove('hidden');
+      else if(open === false) drawer.classList.add('hidden');
+      else drawer.classList.toggle('hidden');
+    }
+
+    // Telegram Bot Integration
+    async function handleCheckout(e) {
+      e.preventDefault();
+      if(cart.length === 0) {
+        alert("السلة فارغة!");
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const method = document.getElementById('payment-method').value;
+      const notes = document.getElementById('cust-notes').value;
+
+      const itemsText = cart.map(i => `• ${i.name} (${i.qty}×) - ${i.price * i.qty} ج.م`).join('\n');
+      const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+
+      const message = `🛍️ *طلب جديد من مكتبة الروسي* 🛍️\n\n` +
+                      `👤 *العميل:* ${name}\n` +
+                      `📞 *الهاتف:* ${phone}\n` +
+                      `💳 *طريقة الدفع:* ${method}\n` +
+                      `📝 *الملاحظات:* ${notes || 'لا يوجد'}\n\n` +
+                      `📦 *المنتجات:*\n${itemsText}\n\n` +
+                      `💰 *الإجمالي النهائي:* ${totalPrice} ج.م`;
+
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+
+        if(response.ok) {
+          alert('تم إرسال طلبك بنجاح! وسنتواصل معك قريباً.');
+          cart = [];
+          updateCartUI();
+          toggleCart(false);
+          document.getElementById('checkout-form').reset();
+        } else {
+          alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.');
+        }
+      } catch (err) {
+        alert('تعذر الاتصال بالتليجرام، تأكد من الاتصال بالإنترنت.');
+      }
+    }
+
+    // Initial Load
+    renderProducts();
+  </script>
+</body>
+</html>
